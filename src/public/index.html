@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Metronome</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="metronome">
+    <div class="body"></div>
+    <div class="face"></div>
+    <div class="pendulum" id="pendulum-full">
+      <div class="weight"></div>
+    </div>
+    <div class="base">
+      <div class="foot foot-left"></div>
+      <div class="foot foot-right"></div>
+    </div>
+  </div>
+  <div class="controls">
+    <label for="bpmSlider">BPM: <span id="bpmValue">120</span></label>
+    <input type="range" id="bpmSlider" min="40" value="200">
+    <button id="playButton" data-playing="false" role="switch" aria-checked="false">Play/Pause</button>
+  </div>
+  <audio src="metronome-85688.mp3" loop></audio>
+  <script src="scripts.js"></script>
+</body>
+
+</html>
