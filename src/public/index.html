@@ -21,9 +21,12 @@
     </div>
   </div>
   <div class="controls">
-    <!-- <label>BPM: <div id="bpmValue"></div>400</label> -->
+    <label>BPM: <div id="bpmValue"></div>120</label>
+    <input type="number" id="bpm" min="20" step="4" value="120"/>
+    <label>Time Signature: <div id="bpmPerMeasure"></div>4/4</label>
+    <input type="number" id="" min="20" step="4" value="4"/>
     <input type="range" id="playback-rate-control" min="0.25" max="3" step="0.05" value="1"/>
-    <span id="playback-rate-value">1.0</span>
+    <span id="playback-rate-value" value="5.0"></span>
 
 
     <button id="playButton" data-playing="false" role="switch" aria-checked="false">Play/Pause</button>
