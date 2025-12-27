@@ -16,27 +16,27 @@ const outputElement = document.getElementById("playback-rate-value") as HTMLInpu
 
 
 const pendulum = document.getElementById("pendulum-full") as HTMLInputElement;
-document.getElementById("bpm")?.addEventListener("input", (event) => {
-  const value = (event.target as HTMLInputElement).value;
-  console.log(value);
-});
-
-const bpmString = 120.0;
-const bpm = Number(bpmString);
-// Seconds per beat (e.g., at 120 BPM, 60 / 120 = 0.5 seconds per beat)
-// Use the unary plus (+) to convert the string to a number 
-const secondsPerBeat = 60.0 / +bpm;
 
 
-// Time signature: e.g., 3/4, 4/4, 6/8 time
-const BEATS_PER_MEASURE: number = 3;
-const NOTE_VALUE_PER_BEAT: number = 4; // 4 means a quarter note is one beat
+// 1. Select the input element and assert its type
+let bpmInput = document.getElementById("bpm") as HTMLInputElement;
+let beatsPerMeasureInput = document.getElementById("bpmPerMeasure") as HTMLInputElement;
+let noteValuePerBeatInput = document.getElementById("noteValuePerBeat") as HTMLInputElement;
 
-// Duration of a full measure in seconds
-const measureDuration: number = secondsPerBeat * BEATS_PER_MEASURE;
 
-// Example: Duration of a 16th note (a quarter note is 4, a 16th note is 16)
-const sixteenthNoteTime: number = secondsPerBeat / (NOTE_VALUE_PER_BEAT / 4);
+//let bpm = +bpmInput.value
+
+
+// const handleInput = (event: Event) => {
+//   // Type assertion is necessary to access 'value' property
+//   const target = event.target as HTMLInputElement;
+//   const currentValue = target.value;
+//   inputValue = currentValue;
+//   console.log('Current value:', target.value);
+// };
+
+// let inputValue: string = "";
+// //let bpm: number = parseInt(inputValue);
 
 // Keep track of the time for the next scheduled beat
 let nextBeatTime = audioContext.currentTime;
@@ -86,6 +86,62 @@ async function scheduleBeat(time: number, timeSignatureBeat: number): Promise<vo
 
 
 function scheduler(): void {
+  function getBPM() {
+	let input = bpmInput.value;
+	return parseInt(input);
+}
+
+  let bpm = getBPM()
+
+  function updateValues() {
+	let newBPM = getBPM();
+	bpm = (newBPM);
+}
+
+bpmInput.addEventListener('keydown', updateValues);
+
+
+
+    function getValueOne() {
+    let beatsPerMeasure = beatsPerMeasureInput.value;
+    return parseInt(beatsPerMeasure);
+  }
+
+    function getValueTwo() {
+    let noteValuePerBeat = noteValuePerBeatInput.value;
+    return parseInt(noteValuePerBeat);
+  }
+
+    let measures = getValueOne()
+    let values = getValueTwo()
+
+  function updateMeasures() {
+	let newMeasures = getValueOne()
+  let newValues = getValueTwo()
+  measures = (newMeasures)
+  values = (newValues)
+}
+
+beatsPerMeasureInput.addEventListener('keydown', updateMeasures);
+noteValuePerBeatInput.addEventListener('keydown', updateMeasures);
+
+  
+
+// Time signature: e.g., 3/4, 4/4, 6/8 time
+const BEATS_PER_MEASURE: number = measures;
+const NOTE_VALUE_PER_BEAT: number = values; // 4 means a quarter note is one beat
+
+
+// Seconds per beat (e.g., at 120 BPM, 60 / 120 = 0.5 seconds per beat)
+// Use the unary plus (+) to convert the string to a number 
+let secondsPerBeat = 60.0 / bpm;
+// Duration of a full measure in seconds
+const beatsPerMeasure: number = secondsPerBeat * BEATS_PER_MEASURE;
+
+// Example: Duration of a 16th note (a quarter note is 4, a 16th note is 16)
+const noteValuePerBeat: number = secondsPerBeat / (NOTE_VALUE_PER_BEAT / 4);
+
+
     // Schedule events for a small window into the future (e.g., 100ms)
     while (nextBeatTime < audioContext.currentTime + 0.1) {
         // Call a function to play a sound or trigger an event at 'nextBeatTime'
