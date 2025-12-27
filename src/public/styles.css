@@ -50,7 +50,6 @@ body {
   box-shadow: 2px 0 4px rgba(0, 0, 0, 0.2);
   z-index: 3;
 
-  animation: swing 1.5s ease-in-out infinite;
   transform-origin: 50% 100%; /* Pivot from the bottom center */
 
 
@@ -60,6 +59,17 @@ body {
     0% { transform: rotate(-20deg); }
     100% { transform: rotate(20deg); }
 }
+
+/* Class to apply when the animation should be active */
+.is-swinging {
+  animation-name: swing;
+  animation-duration: 2s; /* Match this to the beat/duration of the desired swing cycle */
+  animation-timing-function: ease-in-out; /* Makes the swing smooth */
+  animation-iteration-count: infinite; /* Loop indefinitely while the class is applied */
+}
+
+
+
 
 .weight {
   position: absolute;

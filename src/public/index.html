@@ -21,11 +21,14 @@
     </div>
   </div>
   <div class="controls">
-    <label>BPM: <div id="bpmValue"></div>400</label>
-    <input type="text" id="bpmSlider" value="" />
+    <!-- <label>BPM: <div id="bpmValue"></div>400</label> -->
+    <input type="range" id="playback-rate-control" min="0.25" max="3" step="0.05" value="1"/>
+    <span id="playback-rate-value">1.0</span>
+
+
     <button id="playButton" data-playing="false" role="switch" aria-checked="false">Play/Pause</button>
   </div>
-  <audio src="metronome-85688.mp3" loop></audio>
+  <audio preload="auto" src="metronome-85688.mp3" loop></audio>
   <script src="scripts.js"></script>
 </body>
 

@@ -1,5 +1,6 @@
 // TypeScript automatically recognizes AudioContext and other Web Audio API interfaces
 let audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+console.log(audioContext);
 let audioBuffer;
 
 // // Type safety for creating a source from an HTML element
@@ -11,21 +12,46 @@ track.connect(audioContext.destination);
 const playButton = document.getElementById("playButton");
 
 
+
+
 // Get the input element and assert its type
-const inputElement = document.getElementById("bpmSlider") as HTMLInputElement;
-const outputElement = document.getElementById("bpmValue") as HTMLInputElement;
-const bpmString = 120;
+const inputElement = document.getElementById("playback-rate-control") as HTMLInputElement;
+const outputElement = document.getElementById("playback-rate-value") as HTMLInputElement;
+const pendulum = document.getElementById("pendulum-full") as HTMLInputElement;
+const bpmString = 120.0;
 var bpm = Number(bpmString);
+// Seconds per beat (e.g., at 120 BPM, 60 / 120 = 0.5 seconds per beat)
 // Use the unary plus (+) to convert the string to a number 
-const secondsPerBeat = 60 / +bpm;
+const secondsPerBeat = 60.0 / +bpm;
+
+
+
+// Time signature: e.g., 3/4, 4/4, 6/8 time
+const BEATS_PER_MEASURE: number = 4;
+const NOTE_VALUE_PER_BEAT: number = 4; // 4 means a quarter note is one beat
+
+// Duration of a full measure in seconds
+const measureDuration: number = secondsPerBeat * BEATS_PER_MEASURE;
+
+// Example: Duration of a 16th note (a quarter note is 4, a 16th note is 16)
+const sixteenthNoteTime: number = secondsPerBeat / (NOTE_VALUE_PER_BEAT / 4);
+
+
+
+
 
 
 // Keep track of the time for the next scheduled beat
 let nextBeatTime = audioContext.currentTime;
 
 
+
+
+
+
+
 // Function to load and play audio (example using a buffer)
-async function scheduleBeat(time: number) {
+async function scheduleBeat(time: number, timeSignatureBeat: number): Promise<void> {
   // Check if context is suspended and resume if needed
   if (audioContext.state === 'suspended') {
     await audioContext.resume();
@@ -42,32 +68,65 @@ async function scheduleBeat(time: number) {
     const source = audioContext.createBufferSource();
     source.buffer = audioBuffer;
     source.connect(audioContext.destination); // Connect to speakers
+    source.loop = true;
+    source.playbackRate.value = +inputElement.value;
     source.start(0); // Play immediately
     source.stop(time + 0.05); 
+
+    inputElement.oninput = () => {
+    source.playbackRate.value = +inputElement.value;
+    outputElement.textContent = inputElement.value;
+};
+  
+  // const oscillator = audioContext.createOscillator();
+  // const gainNode = audioContext.createGain();
+  // console.log(source);
+  // console.log(oscillator);
+  // console.log(gainNode);
+
+  // oscillator.connect(gainNode);
+  // gainNode.connect(audioContext.destination);
+
+  // Change pitch or volume based on whether it's the first beat of the measure
+  if (timeSignatureBeat === 1) {
+    source.playbackRate.setValueAtTime(880, time); // Higher pitch for downbeat
+  } else {
+    source.playbackRate.setValueAtTime(440, time);
+  }
+
+  // oscillator.start(time);
+  // oscillator.stop(time + 0.1); // Play for 100ms
   } catch (error) {
     console.error('Error loading or playing audio:', error);
   }
 }
 
 
-function scheduler() {
+
+let nextNoteTime: number = 0.0; // The time the next note is due
+let currentBeatInMeasure: number = 1;
+
+
+function scheduler(): void {
     // Schedule events for a small window into the future (e.g., 100ms)
     while (nextBeatTime < audioContext.currentTime + 0.1) {
         // Call a function to play a sound or trigger an event at 'nextBeatTime'
-        scheduleBeat(nextBeatTime);
+        scheduleBeat(nextBeatTime, currentBeatInMeasure);
 
         // Advance the next beat time by the calculated duration
         nextBeatTime += secondsPerBeat;
+        currentBeatInMeasure++;
+
+            // Reset the beat counter for a new measure
+    if (currentBeatInMeasure > BEATS_PER_MEASURE) {
+      currentBeatInMeasure = 1;
     }
-    
-    // Use a timer (like setTimeout or setInterval) to repeatedly call the scheduler
+  }
+      // Use a timer (like setTimeout or setInterval) to repeatedly call the scheduler
     // Note: setTimeout/setInterval is less precise than the audio clock, 
     // but the while loop compensates by scheduling slightly ahead of the DOM clock time.
     window.setTimeout(scheduler, 25); 
-}
-
-
-  console.log(audioContext);
+  }
 
 // Start the sequence after user interaction (required by most browsers)
 if (playButton) {
@@ -75,17 +134,17 @@ playButton.onclick = () => {
   if (audioContext.state === "running") {
     audioContext.suspend().then(() => {
       playButton.textContent = "Resume context";
+      pendulum.classList.remove('is-swinging');
     });
   } else if (audioContext.state === "suspended") {
     audioContext.resume().then(() => {
       playButton.textContent = "Suspend context";
+      pendulum.classList.add('is-swinging');
     });
   }
    scheduler();
 }, { once: true };
 }
-
-
 
 
 
