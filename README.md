@@ -39,4 +39,4 @@ To make **_Metronome Web App_** possible:
 
 -[Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) For Documentation
 
-- [Pxabay](https://pixabay.com/) for Audio Source (Ticking noise)
+-[Pxabay](https://pixabay.com/) for Audio Source (Ticking noise)

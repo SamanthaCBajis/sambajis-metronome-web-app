@@ -43,14 +43,15 @@ var audioElement = document.querySelector("audio");
 var track = audioContext.createMediaElementSource(audioElement);
 // Connecting nodes in a type-safe manner/connect your other nodes to BaseAudioContext.destination, which handles the situation for you
 track.connect(audioContext.destination);
+//instance of audio buffer
 var audioBuffer;
 // Get the inputs element and assert theyre type
-var inputElement = document.getElementById("playback-rate-control");
-var outputElement = document.getElementById("playback-rate-value");
+var playbackRateElement = document.getElementById("playback-rate-control");
+var playbackRateValelement = document.getElementById("playback-rate-value");
 // Function to load and play audio (example using a buffer)
 function scheduleBeat(time, timeSignatureBeat) {
     return __awaiter(this, void 0, void 0, function () {
-        var response, arrayBuffer, audioBuffer_1, source_1, error_1;
+        var response, arrayBuffer, audioBuffer, source;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -60,9 +61,7 @@ function scheduleBeat(time, timeSignatureBeat) {
                     _a.sent();
                     console.log('AudioContext resumed successfully');
                     _a.label = 2;
-                case 2:
-                    _a.trys.push([2, 6, , 7]);
-                    return [4 /*yield*/, fetch('metronome-85688.mp3')];
+                case 2: return [4 /*yield*/, fetch('metronome-85688.mp3')];
                 case 3:
                     response = _a.sent();
                     return [4 /*yield*/, response.arrayBuffer()];
@@ -70,74 +69,58 @@ function scheduleBeat(time, timeSignatureBeat) {
                     arrayBuffer = _a.sent();
                     return [4 /*yield*/, audioContext.decodeAudioData(arrayBuffer)];
                 case 5:
-                    audioBuffer_1 = _a.sent();
-                    source_1 = audioContext.createBufferSource();
-                    source_1.buffer = audioBuffer_1;
-                    source_1.connect(audioContext.destination); // Connect to speakers
-                    source_1.loop = true;
-                    source_1.playbackRate.value = +inputElement.value;
-                    source_1.start(0); // Play immediately
-                    source_1.stop(time + 0.05);
-                    inputElement.oninput = function () {
-                        source_1.playbackRate.value = +inputElement.value;
-                        outputElement.textContent = inputElement.value;
+                    audioBuffer = _a.sent();
+                    source = audioContext.createBufferSource();
+                    source.buffer = audioBuffer;
+                    source.connect(audioContext.destination); // Connect to speakers
+                    source.loop = true;
+                    source.playbackRate.value = +playbackRateElement.value;
+                    source.start(0); // Play immediately
+                    source.stop(time + 0.05);
+                    playbackRateElement.oninput = function () {
+                        source.playbackRate.value = +playbackRateElement.value;
+                        playbackRateValelement.textContent = playbackRateElement.value;
                     };
                     // Change pitch or volume based on whether it's the first beat of the measure
                     if (timeSignatureBeat === 1) {
-                        source_1.playbackRate.setValueAtTime(1.0, 0); // Creates a higher pitch for downbeat
+                        // Creates a pitch for downbeat
+                        source.playbackRate.setValueAtTime(1.0, 0);
                     }
                     else {
-                        source_1.playbackRate.setValueAtTime(2, 0);
+                        source.playbackRate.setValueAtTime(2, 0);
                     }
-                    return [3 /*break*/, 7];
-                case 6:
-                    error_1 = _a.sent();
-                    console.error('Error loading or playing audio:', error_1);
-                    return [3 /*break*/, 7];
-                case 7: return [2 /*return*/];
+                    return [2 /*return*/];
             }
         });
     });
 }
-// 1. Select the input element and assert its s
-var bpmInput = document.getElementById("bpm");
-var beatsPerMeasureInput = document.getElementById("bpmPerMeasure");
 // Keep track of the time for the next scheduled beat
 var nextBeatTime = audioContext.currentTime;
 // The time the next note is due
 var nextNoteTime = 0.0;
 var currentBeatInMeasure = 1;
+//Get Beats Per Minute and Beats Per Measure From User Input
+var bpmInput = document.getElementById("bpm");
+if (bpmInput) {
+    var updateBPMValue = function (event) {
+        event.target;
+    };
+    bpmInput.addEventListener('change', updateBPMValue);
+}
+var beatsPerMeasureInput = document.getElementById("bpmPerMeasure");
+if (beatsPerMeasureInput) {
+    var updateBeatsPerMeasure = function (event) {
+        event.target;
+    };
+    beatsPerMeasureInput.addEventListener('change', updateBeatsPerMeasure);
+}
 function scheduler() {
-    function getBPM() {
-        var input = bpmInput.value;
-        return parseInt(input);
-    }
-    function updateValues() {
-        var newBPM = getBPM();
-        bpm = (newBPM);
-    }
-    var bpm = getBPM();
-    bpmInput.addEventListener('keydown', updateValues);
-    function getValueOne() {
-        var beatsPerMeasure = beatsPerMeasureInput.value;
-        return parseInt(beatsPerMeasure);
-    }
-    function updateMeasures() {
-        var newMeasure = getValueOne();
-        beatsPerMeasure = (newMeasure);
-    }
-    var beatsPerMeasure = getValueOne();
-    beatsPerMeasureInput.addEventListener('keydown', updateMeasures);
     // Time signature: e.g., 3/4, 4/4, 6/8 time
-    var BEATS_PER_MEASURE = beatsPerMeasure;
-    //const NOTE_VALUE_PER_BEAT: number = noteValuePerBeat; // 4 means a quarter note is one beat
+    var bpm = +bpmInput.value;
     // Seconds per beat (e.g., at 120 BPM, 60 / 120 = 0.5 seconds per beat) 
+    var secondsPerBeat = (60.0 / bpm) / +playbackRateElement.value;
     // 1 quarter note, 2 eighth note, 4 sixteenth notes
-    var secondsPerBeat = (60.0 / bpm) / +inputElement.value;
-    // Duration of a full measure in seconds
-    //const beatsPerMeasure: number = secondsPerBeat * BEATS_PER_MEASURE;
-    // Example: Duration of a 16th note (a quarter note is 4, a 16th note is 16)
-    //const noteValuePerBeat: number = secondsPerBeat / (NOTE_VALUE_PER_BEAT / 4);
+    var beatsPerMeasure = +beatsPerMeasureInput.value;
     // Schedule events for a small window into the future (e.g., 100ms)
     while (nextBeatTime < audioContext.currentTime + 0.1) {
         // Call a function to play a sound or trigger an event at 'nextBeatTime'
@@ -146,7 +129,7 @@ function scheduler() {
         nextBeatTime += secondsPerBeat;
         currentBeatInMeasure++;
         // Reset the beat counter for a new measure
-        if (currentBeatInMeasure > BEATS_PER_MEASURE) {
+        if (currentBeatInMeasure > beatsPerMeasure) {
             currentBeatInMeasure = 1;
         }
     }
@@ -155,7 +138,7 @@ function scheduler() {
     window.setTimeout(scheduler, 25);
 }
 var playButton = document.getElementById("playButton");
-var pendulum = document.getElementById("pendulum-full");
+var pendulum = document.getElementById("fullPendulum");
 // Start the sequence after user interaction (required by most browsers)
 if (playButton) {
     playButton.onclick = function () {
