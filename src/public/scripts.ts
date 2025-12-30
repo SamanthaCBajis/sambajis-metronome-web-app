@@ -1,49 +1,20 @@
+//instance of the audio context
 let audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
 console.log(audioContext);
-let audioBuffer;
-// // Type safety for creating a source from an HTML element.
+// get the audio element
 const audioElement = document.querySelector("audio") as HTMLAudioElement;
-// createMediaElementSource is type-checked
+// pass it into the audio context
 const track = audioContext.createMediaElementSource(audioElement);
-// Connecting nodes in a type-safe manner
+// Connecting nodes in a type-safe manner/connect your other nodes to BaseAudioContext.destination, which handles the situation for you
 track.connect(audioContext.destination);
 
-const playButton = document.getElementById("playButton");
 
+
+
+let audioBuffer;
 // Get the inputs element and assert theyre type
 const inputElement = document.getElementById("playback-rate-control") as HTMLInputElement;
 const outputElement = document.getElementById("playback-rate-value") as HTMLInputElement;
-
-
-const pendulum = document.getElementById("pendulum-full") as HTMLInputElement;
-
-
-// 1. Select the input element and assert its type
-let bpmInput = document.getElementById("bpm") as HTMLInputElement;
-let beatsPerMeasureInput = document.getElementById("bpmPerMeasure") as HTMLInputElement;
-let noteValuePerBeatInput = document.getElementById("noteValuePerBeat") as HTMLInputElement;
-
-
-//let bpm = +bpmInput.value
-
-
-// const handleInput = (event: Event) => {
-//   // Type assertion is necessary to access 'value' property
-//   const target = event.target as HTMLInputElement;
-//   const currentValue = target.value;
-//   inputValue = currentValue;
-//   console.log('Current value:', target.value);
-// };
-
-// let inputValue: string = "";
-// //let bpm: number = parseInt(inputValue);
-
-// Keep track of the time for the next scheduled beat
-let nextBeatTime = audioContext.currentTime;
-// The time the next note is due
-let nextNoteTime: number = 0.0;
-let currentBeatInMeasure: number = 1;
-
 
 // Function to load and play audio (example using a buffer)
 async function scheduleBeat(time: number, timeSignatureBeat: number): Promise<void> {
@@ -75,9 +46,9 @@ async function scheduleBeat(time: number, timeSignatureBeat: number): Promise<vo
 
   // Change pitch or volume based on whether it's the first beat of the measure
   if (timeSignatureBeat === 1) {
-    source.playbackRate.setValueAtTime(880, time); // Creates a higher pitch for downbeat
+    source.playbackRate.setValueAtTime(1.0, 0); // Creates a higher pitch for downbeat
   } else {
-    source.playbackRate.setValueAtTime(440, time);
+    source.playbackRate.setValueAtTime(2, 0);
   }
   } catch (error) {
     console.error('Error loading or playing audio:', error);
@@ -85,61 +56,61 @@ async function scheduleBeat(time: number, timeSignatureBeat: number): Promise<vo
 }
 
 
+
+
+// 1. Select the input element and assert its s
+let bpmInput = document.getElementById("bpm") as HTMLInputElement;
+let beatsPerMeasureInput = document.getElementById("bpmPerMeasure") as HTMLInputElement;
+
+
+// Keep track of the time for the next scheduled beat
+let nextBeatTime = audioContext.currentTime;
+// The time the next note is due
+let nextNoteTime: number = 0.0;
+let currentBeatInMeasure: number = 1;
+
+
+
 function scheduler(): void {
+
+
   function getBPM() {
-	let input = bpmInput.value;
-	return parseInt(input);
+	  let input = bpmInput.value;
+	  return parseInt(input);
 }
 
-  let bpm = getBPM()
-
-  function updateValues() {
-	let newBPM = getBPM();
-	bpm = (newBPM);
+    function updateValues() {
+	  let newBPM = getBPM();
+	  bpm = (newBPM);
 }
-
-bpmInput.addEventListener('keydown', updateValues);
-
-
+    let bpm = getBPM()
+    bpmInput.addEventListener('keydown', updateValues);
 
     function getValueOne() {
-    let beatsPerMeasure = beatsPerMeasureInput.value;
-    return parseInt(beatsPerMeasure);
+      let beatsPerMeasure = beatsPerMeasureInput.value;
+      return parseInt(beatsPerMeasure);
   }
-
-    function getValueTwo() {
-    let noteValuePerBeat = noteValuePerBeatInput.value;
-    return parseInt(noteValuePerBeat);
-  }
-
-    let measures = getValueOne()
-    let values = getValueTwo()
-
-  function updateMeasures() {
-	let newMeasures = getValueOne()
-  let newValues = getValueTwo()
-  measures = (newMeasures)
-  values = (newValues)
+    function updateMeasures() {
+	    let newMeasure = getValueOne()
+      beatsPerMeasure = (newMeasure)
 }
+      let beatsPerMeasure = getValueOne()
+      beatsPerMeasureInput.addEventListener('keydown', updateMeasures);
 
-beatsPerMeasureInput.addEventListener('keydown', updateMeasures);
-noteValuePerBeatInput.addEventListener('keydown', updateMeasures);
-
-  
 
 // Time signature: e.g., 3/4, 4/4, 6/8 time
-const BEATS_PER_MEASURE: number = measures;
-const NOTE_VALUE_PER_BEAT: number = values; // 4 means a quarter note is one beat
+const BEATS_PER_MEASURE: number = beatsPerMeasure;
+//const NOTE_VALUE_PER_BEAT: number = noteValuePerBeat; // 4 means a quarter note is one beat
+// Seconds per beat (e.g., at 120 BPM, 60 / 120 = 0.5 seconds per beat) 
+// 1 quarter note, 2 eighth note, 4 sixteenth notes
+const secondsPerBeat = (60.0 / bpm) / +inputElement.value;
 
 
-// Seconds per beat (e.g., at 120 BPM, 60 / 120 = 0.5 seconds per beat)
-// Use the unary plus (+) to convert the string to a number 
-let secondsPerBeat = 60.0 / bpm;
 // Duration of a full measure in seconds
-const beatsPerMeasure: number = secondsPerBeat * BEATS_PER_MEASURE;
+//const beatsPerMeasure: number = secondsPerBeat * BEATS_PER_MEASURE;
 
 // Example: Duration of a 16th note (a quarter note is 4, a 16th note is 16)
-const noteValuePerBeat: number = secondsPerBeat / (NOTE_VALUE_PER_BEAT / 4);
+//const noteValuePerBeat: number = secondsPerBeat / (NOTE_VALUE_PER_BEAT / 4);
 
 
     // Schedule events for a small window into the future (e.g., 100ms)
@@ -161,17 +132,23 @@ const noteValuePerBeat: number = secondsPerBeat / (NOTE_VALUE_PER_BEAT / 4);
     window.setTimeout(scheduler, 25); 
   }
 
+
+
+
+const playButton = document.getElementById("playButton");
+const pendulum = document.getElementById("pendulum-full") as HTMLInputElement;
+
 // Start the sequence after user interaction (required by most browsers)
 if (playButton) {
 playButton.onclick = () => {
   if (audioContext.state === "running") {
     audioContext.suspend().then(() => {
-      playButton.textContent = "Resume context";
+      playButton.textContent = "Play";
       pendulum.classList.remove('is-swinging');
     });
   } else if (audioContext.state === "suspended") {
     audioContext.resume().then(() => {
-      playButton.textContent = "Suspend context";
+      playButton.textContent = "Pause";
       pendulum.classList.add('is-swinging');
     });
   }

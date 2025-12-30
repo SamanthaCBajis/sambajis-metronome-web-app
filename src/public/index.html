@@ -4,11 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Metronome</title>
+  <title>Sam Bajis Metronome</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
+  <div class="all-centered">
   <div class="metronome">
     <div class="body"></div>
     <div class="face"></div>
@@ -22,17 +23,47 @@
   </div>
   <div class="controls">
     <div id="bpmValue"></div>
-    <input type="number" id="bpm" min="20" step="4" placeholder="Enter BPM"/>
-    <input type="number" id="bpmPerMeasure" min="20" step="4" placeholder="Enter Beats Per Measure"/>
-    <input type="number" id="noteValuePerBeat" min="20" step="4" placeholder="Enter Note Value Per Beat"/>
-    <input type="range" id="playback-rate-control" min="0.25" max="3" step="0.05" value="1"/>
-    <span id="playback-rate-value" value="5.0"></span>
+  <div class="dropdown-container">
+    <div class="dropdown-wrapper">
+      <label class="dropdown-label" for="tempo-marking">Choose BPM</label>
+      <select class="dropdown" id="bpm" min="20" step="4">
+        <option value="100">100 BPM</option>
+        <option value="120">120 BPM</option>
+        <option value="200">200 BPM</option>
+      </select>
+      <input type="submit" style="display: none;">
+      <div class="dropdown-arrow"></div>
+    </div>
+    
+    <div class="dropdown-wrapper">
+      <label class="dropdown-label" for="time-signature">Time Signature: Per Measure</label>
+      <select class="dropdown" id="bpmPerMeasure" min="20" step="4">
+        <option value="4">4</option>
+        <option value="6">6</option>
+        <option value="8">8</option>
+        <option value="3">3</option>
+        <option value="5">5</option>
+      </select>
+      <input type="submit" style="display: none;">
+      <div class="dropdown-arrow"></div>
+    </div>
 
-
-    <button id="playButton" data-playing="false" role="switch" aria-checked="false">Play/Pause</button>
+    <div class="dropdown-wrapper">
+      <label class="dropdown-label" for="sound">Time Signature: Value Per Beat</label>
+      <select class="dropdown" id="playback-rate-control" min="1" max="4">
+        <option value="1">4</option>
+        <option value="2">8</option>
+        <option value="4">16</option>
+      </select>
+      <input type="submit" style="display: none;">
+      <div class="dropdown-arrow"></div>
+    </div>
+    <span id="playback-rate-value" value="1.0" style="display: none;"></span>
+    <button class="dropdown" id="playButton" data-playing="false" role="switch" aria-checked="false">Play/Pause</button>
+  </div>
+  </div>
   </div>
   <audio preload="auto" src="metronome-85688.mp3" loop></audio>
   <script src="scripts.js"></script>
 </body>
-
 </html>
