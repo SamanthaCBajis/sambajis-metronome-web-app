@@ -9,15 +9,9 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.all-centered {
+.visuals-centered {
     display: flex;
-}
-
-
-.metronome {
-  position: relative;
-  width: min(200px, 50vw);
-  height: min(450px, 90vh);
+    padding: 15px;
 }
 
 .body {
@@ -29,6 +23,12 @@ body {
   background: linear-gradient(to bottom, #7c3aed 0%, #6b21a8 50%, #581c87 100%);
   clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 }
+
+.metronome {
+  position: relative;
+  width: min(185px, 44vw);
+  height: min(379px, 90vh);
+  }
 
 .face {
   position: absolute;
@@ -61,9 +61,23 @@ body {
 }
 
 @keyframes swing {
-    0% { transform: rotate(0deg); }
-    50% { transform: rotate(20deg); }
-    100% { transform: rotate(-20deg); }
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(20deg); }
+  100% { transform: rotate(-20deg); }
+}
+
+.weight {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 21px;
+  height: 0;
+  background: linear-gradient(to top, #fbbf24, #f59e0b);
+  border-bottom: 38px solid #f59e0b;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+  box-shadow: 0 8px 6px -6px gray;
 }
 
 /* Class to apply when the animation should be active */
@@ -71,23 +85,6 @@ body {
   animation-name: swing;
   animation-duration: .5s; /* Match this to the beat/duration of the desired swing cycle */
   animation-iteration-count: infinite; /* Loop indefinitely while the class is applied */
-}
-
-
-
-
-.weight {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 38px;
-  height: 0;
-  background: linear-gradient(to top, #fbbf24, #f59e0b);
-  border-bottom: 38px solid #f59e0b;
-	border-left: 25px solid transparent;
-	border-right: 25px solid transparent;
-  box-shadow: 0 8px 6px -6px gray;
 }
 
 .base {
@@ -120,116 +117,109 @@ body {
 }
 
 
-@media (max-width: 544px) {
-  .metronome {
-    position: relative;
-    width: min(185px, 44vw);
-    height: min(379px, 90vh);
-  }
-  .controls {
-    display: flex;
-    flex-direction: column;
-  }
-
-}
-
-@media (max-width: 320px) {
-  .metronome {
-    position: relative;
-    width: min(200px, 44vw);
-    height: min(350px, 90vh);
-  }
-  .weight {
-  position: absolute;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 21px;
-  height: 0;
-  background: linear-gradient(to top, #fbbf24, #f59e0b);
-  border-bottom: 38px solid #f59e0b;
-	border-left: 25px solid transparent;
-	border-right: 25px solid transparent;
-  box-shadow: 0 8px 6px -6px gray;
-}
-}
-
-
 
 /* dropdowns */
-    .dropdown-container {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      width: 100%;
-      max-width: 350px;
-    }
+.dropdown-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 350px;
+}
 
-    .dropdown-wrapper {
-      position: relative;
-      width: 100%;
-    }
+.dropdown-wrapper {
+  position: relative;
+  width: 100%;
+}
 
-    .dropdown-label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      color: #581c87;
-    }
+.dropdown-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #581c87;
+}
 
-    .dropdown {
-      width: 100%;
-      padding: 12px 40px 12px 16px;
-      background: white;
-      border: 2px solid #c4b5fd;
-      border-radius: 12px;
-      font-size: 16px;
-      color: #581c87;
-      cursor: pointer;
-      appearance: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
-    }
+.dropdown {
+  width: 100%;
+  padding: 12px 40px 12px 16px;
+  background: white;
+  border: 2px solid #c4b5fd;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #581c87;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(139, 92, 246, 0.1);
+}
 
-    .dropdown:hover {
-      border-color: #a78bfa;
-      box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
-    }
+.dropdown:hover {
+  border-color: #a78bfa;
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2);
+}
 
-    .dropdown:focus {
-      outline: none;
-      border-color: #7c3aed;
-      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-    }
+.dropdown:focus {
+  outline: none;
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+}
 
-    .dropdown-arrow {
-      position: absolute;
-      right: 16px;
-      top: 50%;
-      transform: translateY(-50%);
-      margin-top: 12px;
-      pointer-events: none;
-      width: 0;
-      height: 0;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 6px solid #7c3aed;
-    }
+.dropdown-arrow {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 12px;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #7c3aed;
+}
 
-    .dropdown option {
-      padding: 10px;
-      background: white;
-      color: #581c87;
-    }
+.dropdown option {
+  padding: 10px;
+  background: white;
+  color: #581c87;
+}
 
-    @media (max-width: 480px) {
-      .dropdown-container {
-        max-width: 100%;
-      }
 
-      .dropdown {
-        font-size: 14px;
-        padding: 10px 35px 10px 14px;
-      }
-    }
+/* media queries */
+@media (min-width: 768px) {
+  .visuals-centered {
+    padding: 0px;
+}
+  .metronome {
+    position: relative;
+    width: min(200px, 50vw);
+    height: min(450px, 90vh);
+  }
+  .weight {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 38px;
+    height: 0;
+    background: linear-gradient(to top, #fbbf24, #f59e0b);
+    border-bottom: 38px solid #f59e0b;
+	  border-left: 25px solid transparent;
+	  border-right: 25px solid transparent;
+    box-shadow: 0 8px 6px -6px gray;
+  }
+  .controls {
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .dropdown-container {
+    max-width: 100%;
+  }
+  .dropdown {
+    font-size: 14px;
+    padding: 10px 35px 10px 14px;
+  }
+}

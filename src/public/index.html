@@ -9,7 +9,7 @@
 </head>
 
 <body>
-  <div class="all-centered">
+  <div class="visuals-centered">
   <div class="metronome">
     <div class="body"></div>
     <div class="face"></div>
@@ -25,37 +25,37 @@
     <div id="bpmValue"></div>
   <div class="dropdown-container">
     <div class="dropdown-wrapper">
-      <label class="dropdown-label" for="tempo-marking">Choose BPM</label>
+      <label class="dropdown-label" for="tempo-marking">Select BPM (Tempo)</label>
       <select class="dropdown" id="bpm" min="20" step="4">
-        <option value="100">100 BPM</option>
-        <option value="120">120 BPM</option>
-        <option value="200">200 BPM</option>
+        <option value="120">120 BPM (Moderate)</option>
+        <option value="160">160 BPM</option>
+        <option value="200">200 BPM (Quick Waltz)</option>
+        <option value="60">60 BPM (Very Slow)</option>
+        <option value="90">90 BPM (Medium)</option>
       </select>
-      <input type="submit" style="display: none;">
       <div class="dropdown-arrow"></div>
     </div>
     
     <div class="dropdown-wrapper">
-      <label class="dropdown-label" for="time-signature">Time Signature: Per Measure</label>
+      <label class="dropdown-label" for="time-signature">Select Time Signature: Beats Per Measure</label>
       <select class="dropdown" id="bpmPerMeasure" min="20" step="4">
         <option value="4">4</option>
         <option value="6">6</option>
         <option value="8">8</option>
+        <option value="2">2</option>
         <option value="3">3</option>
         <option value="5">5</option>
       </select>
-      <input type="submit" style="display: none;">
       <div class="dropdown-arrow"></div>
     </div>
 
     <div class="dropdown-wrapper">
-      <label class="dropdown-label" for="sound">Time Signature: Value Per Beat</label>
+      <label class="dropdown-label" for="sound">Select Time Signature: Value Per Beat in Measure</label>
       <select class="dropdown" id="playback-rate-control" min="1" max="4">
         <option value="1">4</option>
         <option value="2">8</option>
         <option value="4">16</option>
       </select>
-      <input type="submit" style="display: none;">
       <div class="dropdown-arrow"></div>
     </div>
     <span id="playback-rate-value" value="1.0" style="display: none;"></span>
