@@ -11,9 +11,9 @@
 <body>
   <div class="visuals-centered">
   <div class="metronome">
-    <div class="body"></div>
+    <div class="frame"></div>
     <div class="face"></div>
-    <div class="pendulum" id="fullPendulum">
+    <div class="pendulum" id="full-pendulum">
       <div class="weight"></div>
     </div>
     <div class="base">
@@ -25,7 +25,7 @@
     <div id="bpmValue"></div>
   <div class="dropdown-container">
     <div class="dropdown-wrapper">
-      <label class="dropdown-label" for="tempo-marking">Select BPM (Tempo)</label>
+      <label class="dropdown-label">Select BPM (Tempo)</label>
       <select class="dropdown" id="bpm" min="20" step="4">
         <option value="120">120 BPM (Moderate)</option>
         <option value="160">160 BPM</option>
@@ -33,11 +33,11 @@
         <option value="60">60 BPM (Very Slow)</option>
         <option value="90">90 BPM (Medium)</option>
       </select>
-      <div class="dropdown-arrow"></div>
+      <div class="dropdown-arrow-one"></div>
     </div>
     
     <div class="dropdown-wrapper">
-      <label class="dropdown-label" for="time-signature">Select Time Signature: Beats Per Measure</label>
+      <label class="dropdown-label">Select Time Signature: <br/> Beats Per Measure / Value Per Beat in Measure</label>
       <select class="dropdown" id="bpmPerMeasure" min="20" step="4">
         <option value="4">4</option>
         <option value="6">6</option>
@@ -46,24 +46,24 @@
         <option value="3">3</option>
         <option value="5">5</option>
       </select>
-      <div class="dropdown-arrow"></div>
+      <div class="dropdown-arrow-two"></div>
     </div>
-
+      <label class="dropdown-label" style="font-size: 20px; margin-left: 20px;">/</label>
     <div class="dropdown-wrapper">
-      <label class="dropdown-label" for="sound">Select Time Signature: Value Per Beat in Measure</label>
+      <label class="dropdown-label" for="sound"></label>
       <select class="dropdown" id="playback-rate-control" min="1" max="4">
         <option value="1">4</option>
         <option value="2">8</option>
         <option value="4">16</option>
       </select>
-      <div class="dropdown-arrow"></div>
+      <div class="dropdown-arrow-three"></div>
     </div>
     <span id="playback-rate-value" value="1.0" style="display: none;"></span>
     <button class="dropdown" id="playButton" data-playing="false" role="switch" aria-checked="false">Play/Pause</button>
   </div>
   </div>
   </div>
-  <audio preload="auto" src="metronome-85688.mp3" loop></audio>
+  <audio preload="auto" src="metronome-tick.mp3" loop></audio>
   <script src="scripts.js"></script>
 </body>
 </html>

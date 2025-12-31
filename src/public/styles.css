@@ -9,12 +9,7 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.visuals-centered {
-    display: flex;
-    padding: 15px;
-}
-
-.body {
+.frame {
   position: absolute;
   top: 6.67%;
   left: 0;
@@ -22,6 +17,11 @@ body {
   height: 84.44%;
   background: linear-gradient(to bottom, #7c3aed 0%, #6b21a8 50%, #581c87 100%);
   clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+}
+
+.visuals-centered {
+    display: flex;
+    padding: 15px;
 }
 
 .metronome {
@@ -83,8 +83,8 @@ body {
 /* Class to apply when the animation should be active */
 .is-swinging {
   animation-name: swing;
-  animation-duration: .5s; /* Match this to the beat/duration of the desired swing cycle */
-  animation-iteration-count: infinite; /* Loop indefinitely while the class is applied */
+  animation-duration: .5s;
+  animation-iteration-count: infinite;
 }
 
 .base {
@@ -116,8 +116,6 @@ body {
   right: 13.64%;
 }
 
-
-
 /* dropdowns */
 .dropdown-container {
   display: flex;
@@ -134,7 +132,6 @@ body {
 
 .dropdown-label {
   display: block;
-  margin-bottom: 8px;
   font-size: 14px;
   font-weight: 600;
   color: #581c87;
@@ -165,12 +162,40 @@ body {
   box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
-.dropdown-arrow {
+.dropdown-arrow-one {
   position: absolute;
   right: 16px;
   top: 50%;
   transform: translateY(-50%);
-  margin-top: 12px;
+  margin-top: 9px;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #7c3aed;
+}
+
+.dropdown-arrow-two {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 24px;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid #7c3aed;
+}
+
+.dropdown-arrow-three {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: 0px;
   pointer-events: none;
   width: 0;
   height: 0;
@@ -184,7 +209,6 @@ body {
   background: white;
   color: #581c87;
 }
-
 
 /* media queries */
 @media (min-width: 768px) {
@@ -211,6 +235,9 @@ body {
   }
   .controls {
     display: block;
+  }
+  .dropdown-arrow-two {
+    margin-top: 18px;
   }
 }
 

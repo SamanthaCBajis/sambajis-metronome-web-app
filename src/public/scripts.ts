@@ -23,7 +23,7 @@ async function scheduleBeat(time: number, timeSignatureBeat: number): Promise<vo
   }
 
   //Load audio file using fetch and decodeAudioData
-    const response = await fetch('metronome-85688.mp3');
+    const response = await fetch('metronome-tick.mp3');
     const arrayBuffer = await response.arrayBuffer();
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
@@ -98,7 +98,7 @@ function scheduler(): void {
 }
 
 const playButton = document.getElementById("playButton") as HTMLButtonElement;
-const pendulum = document.getElementById("fullPendulum") as HTMLInputElement;
+const pendulum = document.getElementById("full-pendulum") as HTMLInputElement;
 // Start the sequence after user interaction (required by most browsers)
 if (playButton) {
 playButton.onclick = () => {

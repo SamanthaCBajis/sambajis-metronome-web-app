@@ -61,7 +61,7 @@ function scheduleBeat(time, timeSignatureBeat) {
                     _a.sent();
                     console.log('AudioContext resumed successfully');
                     _a.label = 2;
-                case 2: return [4 /*yield*/, fetch('metronome-85688.mp3')];
+                case 2: return [4 /*yield*/, fetch('metronome-tick.mp3')];
                 case 3:
                     response = _a.sent();
                     return [4 /*yield*/, response.arrayBuffer()];
@@ -138,7 +138,7 @@ function scheduler() {
     window.setTimeout(scheduler, 25);
 }
 var playButton = document.getElementById("playButton");
-var pendulum = document.getElementById("fullPendulum");
+var pendulum = document.getElementById("full-pendulum");
 // Start the sequence after user interaction (required by most browsers)
 if (playButton) {
     playButton.onclick = function () {
