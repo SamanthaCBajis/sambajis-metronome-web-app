@@ -1,11 +1,13 @@
 # Metronome App
-![Sam Bajis Metronome](assetsREADME/titlephoto.png){width=50% height=auto}
+<img src="assetsREADME/titlephoto.png" alt="Sam Bajis Metronome" width="50%" height="auto">
+
 
 This app is hosted on GitHub Pages: [Sam Bajis Metronome App.](https://samanthacbajis.github.io/sambajis-metronome-web-app/src/public/index.html "GitHub Pages")
 
 ## Approach to Metronome App
 This app was made in Visual Studio Code using Node.js, Typescript and the Web Audio API. It was mostly developed and tested in Chrome, but also tested in Microsoft Edge, Firefox and Safari. I wanted to begin with a visual so I made a metronome that looked like one I had one growing up. So I started with a visual and then put shapes together. 
-![Sam Bajis Metronome](assetsREADME/oldmetronome.jpeg){width=50% height=auto}
+<img src="assetsREADME/oldmetronome.jpeg" alt="Sam's Old Metronome" width="50%" height="auto">
+
 Then to begin I read through the Web Audio API documentation to learn more about it as I have never used it before. From the documenation I was able to implement a start/stop button easily with a ticking mp3 I randomly found on the internet; and then I went from there getting the BPM and time signature.
 
 ## Instructions: How to Install and Run App
