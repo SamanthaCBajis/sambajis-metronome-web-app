@@ -36,19 +36,20 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 //instance of the audio context
 var audioContext = new (window.AudioContext || window.webkitAudioContext)();
-console.log(audioContext);
-// get the audio element
 var audioElement = document.querySelector("audio");
-// pass it into the audio context
 var track = audioContext.createMediaElementSource(audioElement);
-// Connecting nodes in a type-safe manner/connect your other nodes to BaseAudioContext.destination, which handles the situation for you
 track.connect(audioContext.destination);
-//instance of audio buffer
 var audioBuffer;
-// Get the inputs element and assert theyre type
+// Keep track of the time for the next scheduled beat
+var nextBeatTime = audioContext.currentTime;
+var nextNoteTime = 0.0;
+var currentBeatInMeasure = 1;
+// Get the inputs elements and assert their type
 var playbackRateElement = document.getElementById("playback-rate-control");
 var playbackRateValelement = document.getElementById("playback-rate-value");
-// Function to load and play audio (example using a buffer)
+var playButton = document.getElementById("playButton");
+var pendulum = document.getElementById("full-pendulum");
+// Function to load and play audio
 function scheduleBeat(time, timeSignatureBeat) {
     return __awaiter(this, void 0, void 0, function () {
         var response, arrayBuffer, audioBuffer, source;
@@ -59,7 +60,6 @@ function scheduleBeat(time, timeSignatureBeat) {
                     return [4 /*yield*/, audioContext.resume()];
                 case 1:
                     _a.sent();
-                    console.log('AudioContext resumed successfully');
                     _a.label = 2;
                 case 2: return [4 /*yield*/, fetch('metronome-tick.mp3')];
                 case 3:
@@ -72,10 +72,10 @@ function scheduleBeat(time, timeSignatureBeat) {
                     audioBuffer = _a.sent();
                     source = audioContext.createBufferSource();
                     source.buffer = audioBuffer;
-                    source.connect(audioContext.destination); // Connect to speakers
+                    source.connect(audioContext.destination);
                     source.loop = true;
                     source.playbackRate.value = +playbackRateElement.value;
-                    source.start(0); // Play immediately
+                    source.start(0);
                     source.stop(time + 0.05);
                     playbackRateElement.oninput = function () {
                         source.playbackRate.value = +playbackRateElement.value;
@@ -94,11 +94,6 @@ function scheduleBeat(time, timeSignatureBeat) {
         });
     });
 }
-// Keep track of the time for the next scheduled beat
-var nextBeatTime = audioContext.currentTime;
-// The time the next note is due
-var nextNoteTime = 0.0;
-var currentBeatInMeasure = 1;
 //Get Beats Per Minute and Beats Per Measure From User Input
 var bpmInput = document.getElementById("bpm");
 if (bpmInput) {
@@ -115,15 +110,11 @@ if (beatsPerMeasureInput) {
     beatsPerMeasureInput.addEventListener('change', updateBeatsPerMeasure);
 }
 function scheduler() {
-    // Time signature: e.g., 3/4, 4/4, 6/8 time
     var bpm = +bpmInput.value;
-    // Seconds per beat (e.g., at 120 BPM, 60 / 120 = 0.5 seconds per beat) 
     var secondsPerBeat = (60.0 / bpm) / +playbackRateElement.value;
-    // 1 quarter note, 2 eighth note, 4 sixteenth notes
     var beatsPerMeasure = +beatsPerMeasureInput.value;
-    // Schedule events for a small window into the future (e.g., 100ms)
+    // While loop schedules slightly ahead of time. play sound at 'nextBeatTime'
     while (nextBeatTime < audioContext.currentTime + 0.1) {
-        // Call a function to play a sound or trigger an event at 'nextBeatTime'
         scheduleBeat(nextBeatTime, currentBeatInMeasure);
         // Advance the next beat time by the calculated duration
         nextBeatTime += secondsPerBeat;
@@ -133,13 +124,10 @@ function scheduler() {
             currentBeatInMeasure = 1;
         }
     }
-    // Use a timer (like setTimeout or setInterval) to repeatedly call the scheduler
-    //the while loop compensates by scheduling slightly ahead of the DOM clock time.
+    // Use timer to repeatedly call the scheduler
     window.setTimeout(scheduler, 25);
 }
-var playButton = document.getElementById("playButton");
-var pendulum = document.getElementById("full-pendulum");
-// Start the sequence after user interaction (required by most browsers)
+// Start the sequence after user interaction
 if (playButton) {
     playButton.onclick = function () {
         if (audioContext.state === "running") {
