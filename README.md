@@ -13,35 +13,36 @@ Then to begin working on the app I read through the Web Audio API documentation 
 ## Instructions: How to Install and Run App
 Go to the ```<> Code``` button on the repository. You will need to have this repo on your Desktop through either: 
 - Downloading a ZIP: click the "Download ZIP" option and then open the repo on your Desktop and then in an IDE, like Visual Studio
-- Cloning the project: use the web URL by opening your Command Prompt, or Terminal, and run the command:<br />
+- Cloning the project: use the web URL by opening your Command Prompt, or Terminal, navigate to your Desktop```cd Desktop```and run the command:<br />
 ```git clone https://github.com/SamanthaCBajis/sambajis-metronome-web-app.git```<br /> 
 
-Next, you will want to make sure Node is installed and you have/are on the right version<br />
+Next, you will want to make sure Node is installed and you have/are on the right version
 [Node.js Download.](https://nodejs.org/en/download "Node.js")
 
-Then open a terminal in your VS Code and check/change the Node Verion to 24.12.0.<br />
+Then, open a terminal in your VS Code and check/change the Node Version to 24.12.0.<br />
 ```node -v```<br /> 
 ```nvm use 24.12.0```<br /> 
-then install node dependencies and make sure you are on npm version 11.6.2.<br />
+Then, install node_dependencies and make sure you are on npm version 11.6.2.<br />
 ```npm i```<br /> 
 ```npm use 11.6.2```<br />
 Once all that is done we can run the project! In your terminal navigate to the public folder<br />
 ```cd src```<br /> 
 ```cd public```<br />
-and run npm run dev command and a link for the app should come up in your terminal as ```http://localhost:3000```<br />
+and run the "npm run dev" command and a link for the app should come up in your terminal as ```http://localhost:3000```<br />
 ```npm run dev```<br /> 
-CTRL + click on the ```http://localhost:3000``` link to open the app in the browser.
+CTRL + click on the ```http://localhost:3000``` link to open the app in the browser!
 
 ## How to use the Metronome App
 This app allows you to:
 - Set the Tempo (or BPM ex. 90, 120, 200)
 - Set the Time signature (ex. 4/4, 3/4, 6/8)
-- Play/Pause the Metronome
-How you do so is by selecting any option shown in the dropdowns and then click the button to play/pause the metronome.
+- Play/Pause the Metronome <br />
+How you do so is by selecting any option shown in the dropdowns and then click the button to Play/Pause the metronome.
 
 ## Design decisions
-I designed the app to be mobile first. Breakpoint(Screen Sizes) are: 480px > 768px > 1024px > 1300px. I also wanted a swinging animation for the metronome for the user to know that the metronome is currently running, or not running, and their tempo/timesignature is set.<br /> 
-**Note** The penduum swinging is not in sync with the BPM. It just swings on click of the play/pause button
+I designed the app to be mobile first. Breakpoint(Screen Sizes) are: 480px > 768px > 1024px > 1300px. I also wanted a swinging animation for the pendulum for the user to know that the metronome is currently running, or not running, and their tempo/time signature is set.<br /> 
+
+**Note** The pendulum swinging is not in sync with the BPM. It swings on click of the Play/Pause button
 
 # Authors
 • Samantha Cayla Bajis - _Initial work_ - SamBajis
